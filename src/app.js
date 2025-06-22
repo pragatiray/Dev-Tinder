@@ -1,6 +1,8 @@
 const express = require("express");
-const { connectDB, User } = require("./config/database");
+const { connectDB } = require("./config/database");
+const { User } = require("./models/user");
 const app = express();
+
 app.use(express.json())
 
 app.post("/signup", async (req, res) => {
