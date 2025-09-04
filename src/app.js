@@ -29,6 +29,24 @@ app.post("/signup", async (req, res) => {
      res.status(400).send("ERROR : " + err.message);
   }
 });
+app.post("/login",async(req,res)=>{
+  try{
+    const {emailId,password} = req.body;
+    const user = await User.findOne({emailId: emailId});
+    if(!user){
+      throw new Error("EmailID is not present in DB");
+    }
+    const isPasswordValid = await bcrypt.compare(password,user.password);
+
+    if (isPasswordValid){
+      res.send("Login Successful!!!");
+    } else{
+      res.status(400).send("Password is not correct")
+    }
+  } catch (err){
+    res.status(400).send("ERROR:" + err.message);
+  }
+})
 app.get("/user",async(req,res) => {
   const userEmail = req.body.emailId;
   try{
